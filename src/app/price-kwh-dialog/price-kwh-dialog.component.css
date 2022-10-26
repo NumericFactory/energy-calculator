@@ -1,0 +1,17 @@
+mat-hint {
+  width: 100%;
+  text-align: right;
+  color: #9595a7;
+  position: relative;
+  top: -1px;
+  left: 2em;
+  font-size: 85%;
+}
+
+.mat-dialog-container {
+  margin: 20px !important;
+}
+
+.mydial .mat-dialog-container {
+  padding: 12px !important;
+}

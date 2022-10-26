@@ -1,0 +1,428 @@
+<section
+  style="position:sticky; top:0; z-index:100"
+  class="bg-primary mb-4 p-2"
+>
+  <div class="container p-0">
+    <!-- CONTENT-->
+    <div
+      class="alert alert-primary p-1 m-0 overflow-hidden"
+      style="font-size: 91%;"
+    >
+      <div class="row">
+        <!-- BLOC HEAD 1-->
+        <!-- <div class="col-6 col-md-4 border-end border-dark d-none d-md-block">
+          <div class="d-flex flex-column align-items-center">
+            <span
+              style="font-weight: 600; font-size:95%;
+            color: #0080ff;"
+            >
+              Conso totale /mois
+            </span>
+
+            <strong> {{ conso }} kWh</strong>
+          </div>
+        </div> -->
+
+        <!-- BLOC HEAD 2 -->
+        <div class="col-6 border-end border-dark text-center">
+          <span style="font-weight: 600; font-size:95%; color: #0080ff;">
+            Conso totale /mois
+          </span>
+
+          <strong>
+            {{
+              conso + reducConsoRadiator + reducConsoDrytowel | number: '1.2-2'
+            }}
+            kWh
+            <span style="font-size:80%;opacity:50%"
+              ><br />{{
+                reducConsoRadiator + reducConsoDrytowel | number: '1.2-2'
+              }}
+              kWh</span
+            >
+          </strong>
+        </div>
+
+        <!-- BLOC HEAD 3-->
+        <div class="col-6 text-center">
+          <span
+            class=""
+            style="font-weight: 600; font-size:95%;
+        color: #0080ff;"
+          >
+            Économie /mois
+          </span>
+          <strong
+            >{{
+              (reducConsoRadiator + reducConsoDrytowel) * priceperkwh
+                | number: '1.2-2'
+            }}
+            € HT
+            <span style="font-size:80%;opacity:50%"
+              ><br />sur {{ conso * priceperkwh | number: '1.2-2' }} € HT</span
+            >
+          </strong>
+
+          <!-- <label *ngIf="computeConso() > 600">(moyenne constatée)</label> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="px-4 text-center mb-4">
+      <p>
+        <strong>Économisez jusqu'à -30% sur votre consommation* </strong>
+      </p>
+    </div>
+
+    <div class="card mb-5">
+      <div
+        class="card-header"
+        style="position:relative;background: #6600ff; background:linear-gradient( 90deg, rgb(30 33 141) 0%, rgb(166 45 201) 100% );
+color: #fff;"
+      >
+        <i
+          style="font-size:32px; position:absolute; right: 15px"
+          class="fa-solid fa-temperature-three-quarters"
+        ></i>
+        Module radiateur électrique
+      </div>
+      <div class="card-body">
+        <p class="mb-0">
+          Avec ce module vous fixez une température
+          <span style="color:rgb(4, 60, 245);">min</span> et
+          <span style="color:rgb(229 93 224);">max</span> directement depuis
+          notre application mobile.
+          <span class="d-none d-md-inline">
+            Le radiateur s'allume et s'éteint automatiquement.</span
+          >
+        </p>
+
+        <div class="row">
+          <div
+            style="position:relative; min-height: 50px;"
+            class="col-12 col-md-6 p-2 pt-3"
+          >
+            <span style="display:inline-block;height:50px; width:50px">
+              <svg viewBox="0 0 56.69 56.69">
+                <path
+                  fill="#ccc"
+                  d="m41.741 10.852v2h-7.75v-2zm-3.25 4.359h-4.5v2h4.5zm-4.5 6.359h7.75v-2h-7.75zm4.5 2.36h-4.5v2h4.5zm-4.5 6.359h7.75v-2h-7.75zm1.208 11.396c0 5.583-4.542 10.125-10.125 10.125s-10.125-4.542-10.125-10.125c0-3.618 1.9-6.906 5-8.725v-22.954c0-2.826 2.299-5.125 5.125-5.125s5.125 2.299 5.125 5.125v22.954c3.1 1.817 5 5.106 5 8.725zm-2 0c0-3.07-1.706-5.845-4.453-7.24l-.547-.278v-24.16c0-1.724-1.402-3.125-3.125-3.125s-3.125 1.401-3.125 3.125v24.16l-.547.278c-2.747 1.396-4.453 4.171-4.453 7.24 0 4.48 3.645 8.125 8.125 8.125s8.125-3.645 8.125-8.125zm-1.666 0c0 3.561-2.897 6.458-6.459 6.458-3.561 0-6.458-2.897-6.458-6.458 0-2.919 1.972-5.482 4.796-6.233l.371-.099v-22.23h2.583v22.229l.371.1c2.825.751 4.796 3.315 4.796 6.233zm-6.139-4.305c-.154-.684-.842-1.134-1.543-.974-2.448.554-4.158 2.695-4.158 5.207 0 .711.579 1.29 1.29 1.29s1.29-.579 1.29-1.29c0-1.277.902-2.409 2.147-2.69.692-.159 1.13-.851.974-1.543z"
+                />
+              </svg>
+            </span>
+
+            <app-slider
+              (sliderChangeEvent)="onSlideChange($event)"
+              [minValue]="16"
+              [maxValue]="31"
+              [thumbOneInitValue]="tempaverage - 1"
+              [thumbTwoInitValue]="tempaverage + 1"
+              [sliderCssType]="1"
+            ></app-slider>
+
+            <div
+              style="display:flex; justify-content: center;align-items:center; margin-top:40px"
+            >
+              <a
+                target="_blank"
+                href="https://easysmartlock.com/categorie-produit/domotique/"
+                style="font-size:90%; color: blue"
+                class="btn btn-sm btn-link"
+              >
+                Commandez le module
+              </a>
+              <i style="color:#aaa" class="fas fa-angle-right"></i>
+            </div>
+            <!-- <p>{{ tempaverage }}°</p> -->
+          </div>
+
+          <!-- RIGHT-->
+          <div class="col-12 col-md-6 mt-4">
+            <div class="d-flex flex-column">
+              <div class="col-12">
+                <p class="p-0 m-0" style="font-size: 85%; font-weight:600">
+                  Consommation actuelle des radiateurs
+                </p>
+                <div class="alert bg-dark text-light p-2 text-center">
+                  <div class="d-flex flex-column">
+                    <div>
+                      <span>
+                        <!-- <strong>{{ consoradiator }} kWh</strong> -->
+                        <strong> {{ newConsoAfterReduc }} kWh</strong>
+                      </span>
+                      <!-- <span style="font-size:85%; margin-left:10px">
+                        {{ percentconsoradiator }}% de la conso totale</span
+                      > -->
+                      <span style="font-size:85%; margin-left:10px">
+                        {{
+                          (newConsoAfterReduc / conso) * 100 | number: '1.0-0'
+                        }}% de la conso totale</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div
+                  style="position: relative;
+                  top: -24px;
+                  border-radius: 0 0 7px 7px;
+                  background-color: #f0f2f3;
+                  border-color: #6e6266;
+                  border-style: dashed;
+                  border-top:0
+                  "
+                  class="alert alert-primary p-2 text-center"
+                >
+                  <!-- *ngIf="reducPercentage < 0" -->
+                  <span
+                    style="position: absolute;
+                  top: 3px;
+                  right: 3px;
+                  background: rgb(8 66 152);
+                  border-radius: 7px;
+                  padding: 5px;
+                  font-size: 85%;
+                  color: #15eef1;
+                  font-weight: 600;
+                  border-top:none"
+                  >
+                    {{ reducPercentage }}%
+                  </span>
+                  <div class="d-flex flex-column">
+                    <div>
+                      <i
+                        style="position:absolute;right:15px; font-size:1.5em;color: green"
+                        class="fa-solid fa-arrow-down-right"
+                      ></i>
+                      <span
+                        style="font-size: 85%; font-weight:bold;color: #212529;"
+                        >Économie d'énergie</span
+                      >
+                    </div>
+                    <div>
+                      <span class="d-flex justify-content-center">
+                        <!-- *ngIf="reducPercentage < 0" -->
+                        <span
+                          style="font-size: 85%;
+                      margin-left: 10px;
+                      background: transparent;
+                      padding: 1px 5px;
+                      color: #212529;
+                      font-weight: 500;"
+                          >{{ reducConsoRadiator }} kWh économisé
+                        </span>
+                        <span
+                          style="font-size: 85%;
+                        margin-left: 10px;
+                        background: #084298;
+                        padding: 1px 5px;
+                        color: #b3ddff;
+                        font-weight: 500;"
+                          >{{
+                            reducConsoRadiator * priceperkwh | number: '1.2-2'
+                          }}
+                          €</span
+                        >
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIN TOOL-->
+      </div>
+    </div>
+
+    <div class="card">
+      <div
+        class="card-header"
+        style="position:relative; background: linear-gradient( 90deg, rgb(0 88 151) 0%, rgb(0 193 181) 100% );
+color: #fff;"
+      >
+        <i
+          style="font-size:32px; position:absolute; right: 15px"
+          class="fa-solid fa-wind"
+        ></i>
+        Module sèche-serviette électrique
+      </div>
+      <div class="card-body">
+        <p>
+          Avec ce module, vous fixez une durée de type minuterie. Votre appareil
+          s'éteint automatiquement.
+        </p>
+
+        <!-- TOOL-->
+
+        <div class="row">
+          <div class="col-12 col-md-6 p-2">
+            <i
+              style="font-size:1.75em;top:-3px;color:#d7d8d9;position:relative;left:-3px"
+              class="fa-regular fa-clock"
+            ></i>
+
+            <!-- <input
+              #minuterieInput
+              (input)="changeMinuterie($event, minuterieInput.value)"
+              type="range"
+              value="45"
+              class="form-range"
+              min="20"
+              max="90"
+              step="1"
+              id="minuterie"
+            /> -->
+            <app-slider-time
+              (sliderChangeEvent)="onSlideMinuterieChange($event)"
+              [minValue]="1"
+              [maxValue]="11"
+              [thumbOneInitValue]="4"
+              [sliderCssType]="2"
+            ></app-slider-time>
+          </div>
+          <!-- <div class="col-12 col-md-6 p-2"></div> -->
+
+          <!-- RIGHT-->
+          <div class="col-12 col-md-6 mt-4">
+            <div class="d-flex flex-column">
+              <div class="col-12">
+                <p class="p-0 m-0" style="font-size: 85%; font-weight:600">
+                  Consommation actuelle sèche-serviette
+                </p>
+                <div class="alert bg-dark text-light p-2 text-center">
+                  <div class="d-flex flex-column">
+                    <div>
+                      <span>
+                        <!-- <strong>{{ consoradiator }} kWh</strong> -->
+                        <strong>
+                          {{
+                            newConsoDryTowelAfterReduc != 0
+                              ? newConsoDryTowelAfterReduc
+                              : consodrytowel
+                          }}
+                          kWh</strong
+                        >
+                      </span>
+                      <!-- <span style="font-size:85%; margin-left:10px">
+                          {{ percentconsoradiator }}% de la conso totale</span
+                        > -->
+                      <span style="font-size:85%; margin-left:10px">
+                        {{
+                          ((newConsoDryTowelAfterReduc != 0
+                            ? newConsoDryTowelAfterReduc
+                            : consodrytowel) /
+                            conso) *
+                            100 | number: '1.0-0'
+                        }}% de la conso totale</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div
+                  style="position: relative;
+                  top: -24px;
+                  border-radius: 0 0 7px 7px;
+                  background-color: #f0f2f3;
+                  border-color: #6e6266;
+                  border-style: dashed;
+                  border-top:0"
+                  class="alert alert-primary p-2 text-center"
+                >
+                  <!-- *ngIf="reducPercentage < 0" -->
+                  <span
+                    style="position: absolute;
+                    top: 3px;
+                    right: 3px;
+                    background: rgb(8 66 152);
+                    border-radius: 7px;
+                    padding: 5px;
+                    font-size: 85%;
+                    color: #15eef1;
+                    font-weight: 600;"
+                  >
+                    {{ reducPercentageDryTowel }}%
+                  </span>
+                  <div class="d-flex flex-column">
+                    <div>
+                      <i
+                        style="position:absolute;right:15px; font-size:1.5em;color: green"
+                        class="fa-solid fa-arrow-down-right"
+                      ></i>
+                      <span style="font-size: 85%; font-weight:bold"
+                        >Économie d'énergie</span
+                      >
+                    </div>
+                    <div>
+                      <span class="d-flex justify-content-center">
+                        <!-- *ngIf="reducPercentage < 0" -->
+                        <span
+                          style="font-size: 85%;
+                        margin-left: 10px;
+                        background: transparent;
+                        padding: 1px 5px;
+                        color: #212529;
+                        font-weight: 500;"
+                          >{{ reducConsoDrytowel }} kWh économisé
+                        </span>
+                        <span
+                          style="font-size: 85%;
+                          margin-left: 10px;
+                          background: #084298;
+                          padding: 1px 5px;
+                          color: #b3ddff;
+                          font-weight: 500;"
+                          >{{
+                            reducConsoDrytowel * priceperkwh | number: '1.2-2'
+                          }}
+                          €</span
+                        >
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FIN TOOL-->
+    </div>
+  </div>
+</section>
+
+<section class="py-3 mt-5 bg-dark">
+  <div class="container">
+    <p
+      style="color:#989795; text-align:cnter; font-size:13px;letter-spacing:0.6px"
+    >
+      Les prix de consommation utilisés pour chaque appareil sont des prix
+      moyens constatés. Votre consommation réelle dépend de plusieurs paramètres
+      comme la classe énergétique de vos appareils, votre niveau d'isolation, la
+      surface de vos pièces. Le calcul de votre consommation est donc fourni à
+      titre indicatif et ne saurait constituer un engagement commercial.
+    </p>
+    <p
+      style="color:#989795; text-align:cnter; font-size:13px;letter-spacing:0.6px"
+    >
+      * En utilisant nos modules, économisez jusqu'à -30%. Cette simulation est
+      une constatation moyenne dans des conditions optimales d'isolation, et
+      d'adéquation optimales entre la puissance des radiateurs par rapport à la
+      superficie de la pièce.
+    </p>
+    <p
+      style="color:#989795; text-align:cnter; font-size:14px;letter-spacing:0.6px;text-align:center"
+    >
+      © EasySmartLock 2022 -
+      <span style="opacity:0.7">Dev: Fred Lossignol</span>
+    </p>
+  </div>
+</section>

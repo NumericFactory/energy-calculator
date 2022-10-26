@@ -1,0 +1,121 @@
+.container {
+  max-width: 850px;
+  /* background: #f7f8f9; */
+}
+h2 {
+  font-size: 1.175rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+
+section.title {
+  background-color: #e9f2fb;
+  text-align: center;
+  padding: 25px 10px;
+  margin-bottom: 0px;
+  background-image: url(https://comparateur-energie.selectra.info/img/new/form/piggy-coins.svg),
+    url(https://comparateur-energie.selectra.info/img/new/form/bg-cloud-01.svg),
+    url(https://comparateur-energie.selectra.info/img/new/form/bg-cloud-03.svg),
+    url(https://comparateur-energie.selectra.info/img/new/results/bg-cloud-03.svg),
+    url(/img/new/form/bg-frame.svg);
+  background-position: calc(50% - 29rem) 0, 100% 60%, calc(50% + 17rem) 10%,
+    calc(50% - 40rem) 60%, calc(50% + 25rem) 100%;
+  background-repeat: no-repeat;
+}
+.unit {
+  font-size: 13px;
+}
+.result {
+  background: #e9ecef;
+  padding: 1.375 !important;
+  min-width: 89px;
+  text-align: center;
+  height: 48px;
+  border-radius: 7px 0 0 7px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.input-group > * {
+  height: 41px;
+  line-height: 1em;
+}
+.input-group-text {
+  padding: 3px 7px;
+  background: ghostwhite;
+}
+.input-group .result {
+  padding: 3px 7px;
+}
+
+section.title p {
+  color: #565e66;
+  font-size: 1.25rem;
+  line-height: 140%;
+  margin: 0;
+}
+p {
+  font-family: Lato;
+}
+.materiel {
+  margin-bottom: 3px;
+}
+.line {
+  display: block;
+  /* align-items: baseline; */
+}
+.line label#main-label {
+  top: 0;
+  margin-left: 10px;
+  font-size: 100%;
+}
+.line-sm {
+  font-size: 80%;
+  margin-left: 25px;
+}
+
+input.number {
+  max-width: 39px;
+  text-align: center;
+  padding: 3px;
+}
+
+input.conso,
+input.power {
+  text-align: center;
+  display: inline-block !important;
+}
+
+.addbutton {
+  /* margin: 0 auto; */
+  text-align: left;
+}
+.addbutton button[type='button'] {
+  background: rgb(43, 48, 63);
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 9px;
+  margin-left: 21px;
+}
+label {
+  font-size: 80%;
+  position: relative;
+  top: -7px;
+}
+
+.row-radiator label {
+  top: 1px;
+}
+.btn-plus,
+.btn-minus {
+  background: #e8eff7;
+  color: #6b7680;
+  font-weight: bolder;
+  border-color: #ccc;
+  padding: 8px 11px;
+}

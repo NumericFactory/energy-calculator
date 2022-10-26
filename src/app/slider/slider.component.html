@@ -1,0 +1,32 @@
+<div
+  (window:resize)="onResize($event)"
+  #sliderContainer
+  class="slider-container"
+>
+  <div class="line" [class.green-blue]="sliderCssType == 2"></div>
+
+  <div
+    #dragThumbOne
+    cdkDragBoundary=".slider-container"
+    cdkDragLockAxis="x"
+    cdkDrag
+    class="thumb-one"
+    (cdkDragMoved)="minMove($event)"
+    [cdkDragFreeDragPosition]="dragPosition1"
+  >
+    <span class="slider-value"> {{ thumbOneValue + getUnity() }} </span>
+  </div>
+
+  <div
+    *ngIf="thumbTwoValue"
+    #dragThumbTwo
+    cdkDragBoundary=".slider-container"
+    cdkDragLockAxis="x"
+    cdkDrag
+    class="thumb-two"
+    (cdkDragMoved)="maxMove($event)"
+    [cdkDragFreeDragPosition]="dragPosition2"
+  >
+    <span class="slider-value"> {{ thumbTwoValue + getUnity() }} </span>
+  </div>
+</div>

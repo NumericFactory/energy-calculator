@@ -1,0 +1,25 @@
+.container {
+  max-width: 850px;
+  /* background: #f7f8f9; */
+}
+h2 {
+  font-size: 1.175rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+section.title {
+  background-color: #e9f2fb;
+  text-align: center;
+  padding: 25px 10px;
+  margin-bottom: 0px;
+  background-image: url(https://comparateur-energie.selectra.info/img/new/form/piggy-coins.svg),
+    url(https://comparateur-energie.selectra.info/img/new/form/bg-cloud-01.svg),
+    url(https://comparateur-energie.selectra.info/img/new/form/bg-cloud-03.svg),
+    url(https://comparateur-energie.selectra.info/img/new/results/bg-cloud-03.svg),
+    url(/img/new/form/bg-frame.svg);
+  background-position: calc(50% - 29rem) 0, 100% 60%, calc(50% + 17rem) 10%,
+    calc(50% - 40rem) 60%, calc(50% + 25rem) 100%;
+  background-repeat: no-repeat;
+}

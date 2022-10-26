@@ -1,0 +1,30 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+body {
+  background: #f0f2f3;
+}
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Add application styles & imports to this file! */
+.form-floating > .form-control-plaintext ~ label,
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-1rem) translateX(0.15rem);
+  text-align: center;
+}
+.form-floating > .form-control,
+.form-floating > .form-control-plaintext,
+.form-floating > .form-select {
+  height: calc(0.5rem + 2px);
+  line-height: 1.25;
+}
+.input-group-text {
+  font-size: 0.8rem;
+}
+.form-control {
+  padding: 0.175rem 0.35rem;
+}

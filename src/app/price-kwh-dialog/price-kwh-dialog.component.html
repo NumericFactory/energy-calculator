@@ -1,0 +1,91 @@
+<p
+  style="font-size: 16px;
+font-weight: 500;
+position:relative;
+margin-bottom: 5px;
+top: -17px;
+"
+>
+  Personnalisez votre tarif €HT/kWh actuel
+  <span class="d-none d-md-inline-block">(votre opérateur)</span>
+</p>
+
+<div mat-dialog-content>
+  <div class="d-flex flex-column">
+    <!-- DESKTOP -->
+    <!-- <div class="d-flex justify-content-between d-none d-md-block">
+      <mat-form-field appearance="outline">
+        <mat-label>Prix €HT/kWh</mat-label>
+        <input
+          (keyup)="saveOnEnterKey($event, data)"
+          type="number"
+          matInput
+          [(ngModel)]="data.pricekwh"
+        />
+        <mat-hint>0.15 €HT prix moyen</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Compteur €HT/mois</mat-label>
+        <input
+          (keyup)="saveOnEnterKey($event, data)"
+          type="number"
+          matInput
+          [(ngModel)]="data.priceLocation"
+        />
+        <mat-hint>9.30 €HT prix moyen</mat-hint>
+      </mat-form-field>
+    </div> -->
+
+    <!-- MOBILE -->
+    <div class="d-flex flex-column justify-content-between">
+      <mat-form-field appearance="outline">
+        <mat-label>Prix €HT/kWh </mat-label>
+        <input
+          (keyup)="saveOnEnterKey($event, data)"
+          type="number"
+          matInput
+          [(ngModel)]="data.pricekwh"
+          cdkFocusInitial
+        />
+        <mat-hint>0.15€HT/kWh prix moyen</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Location compteur €HT/mois </mat-label>
+        <input
+          (keyup)="saveOnEnterKey($event, data)"
+          type="number"
+          matInput
+          [(ngModel)]="data.priceLocation"
+        />
+        <mat-hint>9.30€HT/mois prix moyen</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- d-flex -->
+</div>
+<div mat-dialog-actions class="mt-0 p-0 justify-content-between">
+  <button (click)="onNoClick()" mat-stroked-button>Fermer</button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (keyup)="saveOnClick($event, data)"
+    [mat-dialog-close]="data"
+  >
+    Modifier
+  </button>
+</div>
+
+<div class="alert alert-warning p-1 mb-1 mt-4 d-flex align-items-center">
+  <i class="fa-solid fa-circle-info"></i>
+  <small style="font-size:13px; margin-left: 7px">
+    Le prix/kWh (Euro) est sur votre facture d'électricité</small
+  >
+</div>
+<img
+  style="width:100%"
+  src="https://frederic-lossignol.com/images/facture-elec2.png"
+  alt=""
+/>

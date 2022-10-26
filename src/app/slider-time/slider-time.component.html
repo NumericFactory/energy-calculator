@@ -1,0 +1,25 @@
+<div
+  (window:resize)="onResize($event)"
+  #sliderContainer
+  class="slider-container"
+>
+  <div class="line" [class.green-blue]="sliderCssType == 2"></div>
+
+  <div
+    #dragThumbOne
+    cdkDragBoundary=".slider-container"
+    cdkDragLockAxis="x"
+    cdkDrag
+    class="thumb-one"
+    (cdkDragMoved)="minMove($event)"
+    [cdkDragFreeDragPosition]="dragPosition1"
+  >
+    <span class="slider-value">
+      {{
+        thumbOneValue < 60
+          ? thumbOneValue + getUnity()
+          : convertHM(thumbOneValue)
+      }}
+    </span>
+  </div>
+</div>

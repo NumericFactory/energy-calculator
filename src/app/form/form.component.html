@@ -1,0 +1,918 @@
+<!-- <hello name="{{ name }}"></hello> -->
+
+<section
+  cdkDragLockAxis="x"
+  cdkDrag
+  style="position:sticky; top:0; z-index:100"
+  class="bg-primary mb-5 p-2"
+>
+  <div class="container">
+    <div
+      class="alert alert-primary p-1 m-0 overflow-hidden"
+      style="
+      font-size: 91%;
+      border-radius: 7px 7px 0 0;"
+    >
+      <div class="row">
+        <div class="col-6 col-md-4 border-end border-dark">
+          <div class="d-flex flex-column align-items-center">
+            <span
+              style="font-weight: 600; font-size:95%;
+            color: #0080ff;"
+            >
+              Conso totale /mois
+            </span>
+
+            <strong> {{ computeConso() | number: '1.2-2' }} kWh</strong>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 border-end border-dark">
+          <div class="d-flex flex-column align-items-center">
+            <div style="font-weight: 600; font-size:95%; color: #0080ff;">
+              <div class="d-flex align-items-center justify-content-center">
+                <!-- d-flex -->
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <a
+                      type="button"
+                      href="#"
+                      color="primary"
+                      (click)="openDialog($event)"
+                      style="color: #0d6efd;
+                    font-size: 15px;
+                    line-height: 28px;"
+                    >
+                      <strong> {{ pricePerKWH }}</strong>
+                    </a>
+                    <span>
+                      €HT/kWh<small
+                        class="d-none d-md-inline-block"
+                        style="font-size:12px;color: #084298; margin-left:5px"
+                      >
+                        (tarif opérateur)
+                      </small>
+                    </span>
+                  </div>
+                </div>
+                <!-- d-flex -->
+              </div>
+            </div>
+
+            <strong>
+              {{ computeConso() * pricePerKWH | number: '1.2-2' }} €</strong
+            >
+          </div>
+        </div>
+        <div class="col-4 d-none d-md-block">
+          <span
+            class="d-none d-md-block"
+            style="font-weight: 600; font-size:95%;
+        color: #0080ff;"
+          >
+            Prix TTC/m
+            <small style="font-size:12px">location compteur inclus</small>
+          </span>
+          <strong> {{ computeConsoTotal() | number: '1.2-2' }}€ TTC </strong>
+          <!-- *ngIf="computeConso() > 600" -->
+          <button
+            (click)="navigateToEndPage()"
+            type="button"
+            class="btn btn-primary btn-sm my-1"
+            style="height: 40px;
+            background: #0058bf;
+            color: #62ffec;
+            border-color: #0041ff;
+            font-weight: 400;
+            width: 100%;
+            display: inline-block;
+            width: 54%;
+            padding:2px !important
+            "
+          >
+            Économisez
+          </button>
+          <!-- <label *ngIf="computeConso() > 600">(moyenne constatée)</label> -->
+        </div>
+      </div>
+    </div>
+    <button
+      (click)="navigateToEndPage()"
+      class="btn btn-dark w-100 d-block d-md-none"
+      style="background: #084194;
+    font-size: 85%;
+    border-radius: 0 0 7px 7px;"
+      *ngIf="consoForm.value.radiator.items.length > 0"
+    >
+      Réduisez votre facture énergétique
+    </button>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container">
+    <form [formGroup]="consoForm" (ngSubmit)="submitForm(consoForm.value)">
+      <h2>Chauffage</h2>
+      <!-- RADIATEUR / RADIATOR -->
+      <!-- -------------------------- -->
+      <div formGroupName="radiator" class="materiel">
+        <div class="line">
+          <input
+            id="radiator"
+            (change)="radiatorCheckedChange($event)"
+            formControlName="checked"
+            type="checkbox"
+          />
+          <label id="main-label" for="radiator">Radiateur</label>
+        </div>
+
+        <div
+          style="margin-left:20px; margin-bottom:7px"
+          formArrayName="items"
+          *ngFor="
+            let item of radiatorItems.controls;
+            let i = index;
+            let c = count
+          "
+        >
+          <div
+            class="line animate__animated animate__faster"
+            [class]="animatestyle"
+            [formGroupName]="i"
+          >
+            <!-- <span>{{ i + 1 }} </span> -->
+
+            <div style="position:relative" class="row row-radiator">
+              <div class="col-4 col-sm-3 col-md-2">
+                <!-- radiator number-->
+
+                <div class="input-group d-flex">
+                  <button
+                    (click)="radiatorDecrement($event, i)"
+                    type="button"
+                    class="btn btn-secondary btn-plus input-group-text"
+                  >
+                    -
+                  </button>
+
+                  <input
+                    class="form-control text-center number"
+                    formControlName="radiatornumber"
+                  />
+
+                  <button
+                    (click)="radiatorIncrement($event, i)"
+                    type="button"
+                    class="btn btn-secondary btn-minus input-group-text"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="col">
+                <!-- radiator power-->
+
+                <div class="input-group">
+                  <select
+                    (change)="radiatorpowerChange($event, i)"
+                    id="radiatorpower"
+                    class="power form-control"
+                    formControlName="radiatorpower"
+                    placeholder="Puissance (Watt)"
+                  >
+                    <option value="500">500</option>
+                    <option value="750">750</option>
+                    <option value="1000">1000</option>
+                    <option value="1250">1250</option>
+                    <option value="1500">1500</option>
+                    <option value="2000">2000</option>
+                  </select>
+                  <span class="input-group-text">W</span>
+                </div>
+                <label for="radiatorpower">Puissance (Watt)</label>
+              </div>
+
+              <div class="col">
+                <!-- radiator temp-->
+                <!-- <div class="input-group"> -->
+                <output>
+                  {{ temperature.value }}°
+                  <span style="font-size:61%"> (Température)</span>
+                </output>
+                <input
+                  style="position: relative;top: -9px;"
+                  type="range"
+                  #temperature
+                  (input)="radiatortempChange($event, i, temperature.value)"
+                  class="conso form-range"
+                  class="form-range"
+                  min="19"
+                  max="35"
+                  value="23"
+                  formControlName="radiatortemp"
+                  placeholder="Conso moyenne / mois"
+                />
+
+                <!-- <span class="input-group-text">°</span> -->
+                <!-- <label for="radiatorconso">Température</label> -->
+                <!-- </div> -->
+              </div>
+
+              <div class="col d-none d-md-block">
+                <!-- radiator conso-->
+                <div class="input-group">
+                  <input
+                    (keyup)="radiatorconsoChange($event, i)"
+                    class="conso form-control"
+                    formControlName="radiatorconso"
+                    placeholder="Conso moyenne / mois"
+                    [attr.disabled]="true"
+                  />
+                  <span class="input-group-text unit">kWh</span>
+                </div>
+                <label for="radiatorconso">Conso/radiateur/mois</label>
+              </div>
+
+              <div class="col">
+                <!-- radiator conso global per line-->
+                <div class="input-group">
+                  <input
+                    class="conso form-control"
+                    formControlName="radiatorconsoglobal"
+                    placeholder="Conso moyenne / mois"
+                    [attr.disabled]="true"
+                  />
+                  <span class="input-group-text unit">kWh</span>
+                </div>
+                <label for="radiatorconsoglobal">Consommation/mois</label>
+              </div>
+
+              <div
+                style="position: absolute;top: 3px;right: -45px;width: 62px;"
+              >
+                <button
+                  class="btn btn-outline-secondary btn-sm border-0"
+                  type="button"
+                  title="Supprimer la ligne"
+                  *ngIf="c > 1"
+                  (click)="deleteItemRadiatorLine($event, i)"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- button ajouter -->
+        <div *ngIf="consoForm.value.radiator.checked" class="addbutton">
+          <button type="button" (click)="addItemRadiator($event)">
+            Ajouter
+          </button>
+        </div>
+      </div>
+
+      <!-- <div class="materiel">
+        <div class="line"><input type="checkbox" /> Clim réversible</div>
+      </div> -->
+
+      <h2>Luminaires</h2>
+      <!-- LUMINAIRES / LIGHTS -->
+      <!-- -------------------------- -->
+      <div formGroupName="light" class="materiel">
+        <div class="line">
+          <input id="light" formControlName="checked" type="checkbox" />
+          <label id="main-label" for="light"
+            >Luminaires
+            <span style="font-size:80%">(9W / 60W lumi)</span></label
+          >
+        </div>
+        <div
+          *ngIf="consoForm.value.light.checked"
+          style="margin-left:20px"
+          class="animate__animated animate__faster"
+          [class]="animatestyle"
+        >
+          <div class="row">
+            <div class="col-4 col-sm-3 col-md-2">
+              <!-- light number-->
+
+              <div class="input-group">
+                <button
+                  (click)="lightDecrement($event)"
+                  type="button"
+                  class="btn btn-secondary btn-plus"
+                >
+                  -
+                </button>
+
+                <input
+                  class="form-control text-center number"
+                  formControlName="number"
+                />
+
+                <button
+                  (click)="incrementNumber($event, 'light')"
+                  type="button"
+                  class="btn btn-secondary btn-minus"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="col d-none d-md-block">
+              <!-- light conso-->
+              <div class="input-group">
+                <span class="result">
+                  {{ consoForm.value.light.conso }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconso">Conso unit/mois</label>
+            </div>
+
+            <div class="col d-none d-md-block"></div>
+            <div class="col d-none d-md-block"></div>
+
+            <div class="col">
+              <!-- light conso global -->
+              <div class="input-group">
+                <span class="result">
+                  {{
+                    consoForm.value.light.number * consoForm.value.light.conso
+                  }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconsoglobal">Consommation/mois</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TV- INTERNET - TELEPHONE ITEMS  -->
+      <h2 style="position:relative">
+        <input
+          [checked]="verifyAllItemsChecked('tvItems')"
+          (change)="checkAllItems(allTvItems, 'tvItems')"
+          style="position:absolute; left:-35px"
+          #allTvItems
+          class="form-check-input"
+          type="checkbox"
+        />
+        TV / Internet / Téléphone
+      </h2>
+      <div
+        *ngFor="let item of tvItems"
+        [formGroupName]="item.id"
+        class="materiel"
+      >
+        <div class="line">
+          <input [id]="item.fr" formControlName="checked" type="checkbox" />
+          <label id="main-label" [for]="item.fr">
+            {{ item.fr | titlecase }}</label
+          >
+        </div>
+
+        <div
+          class="animate__animated animate__faster"
+          [class]="animatestyle"
+          *ngIf="consoForm.value[item.id].checked"
+          style="margin-left:20px"
+        >
+          <div class="row">
+            <div class="col-4 col-sm-3 col-md-2">
+              <!-- light number-->
+
+              <div class="input-group">
+                <button
+                  (click)="decrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-plus"
+                >
+                  -
+                </button>
+
+                <input
+                  class="form-control text-center number"
+                  formControlName="number"
+                />
+
+                <button
+                  (click)="incrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-minus"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="col d-none d-md-block">
+              <!-- light conso-->
+              <div class="input-group">
+                <span class="result">
+                  {{ consoForm.value[item.id].conso }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconso">Conso unit/mois</label>
+            </div>
+
+            <div class="col d-none d-md-block"></div>
+            <div class="col d-none d-md-block"></div>
+
+            <div class="col">
+              <!-- light conso global -->
+              <div class="input-group">
+                <span class="result">
+                  {{
+                    consoForm.value[item.id].number *
+                      consoForm.value[item.id].conso
+                  }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconsoglobal">Consommation/mois</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUISINE ITEMS -->
+      <h2 style="position:relative">
+        <input
+          [checked]="verifyAllItemsChecked('cuisineItems')"
+          (change)="checkAllItems(allCuisineItems, 'cuisineItems')"
+          style="position:absolute; left:-35px"
+          #allCuisineItems
+          class="form-check-input"
+          type="checkbox"
+        />Cuisine
+      </h2>
+      <div
+        *ngFor="let item of cuisineItems"
+        [formGroupName]="item.id"
+        class="materiel"
+      >
+        <div class="line">
+          <input [id]="item.fr" formControlName="checked" type="checkbox" />
+          <label id="main-label" [for]="item.fr">{{
+            item.fr | titlecase
+          }}</label>
+        </div>
+
+        <div
+          class="line animate__animated animate__faster"
+          [class]="animatestyle"
+          *ngIf="consoForm.value[item.id].checked"
+          style="margin-left:20px"
+        >
+          <div class="row">
+            <div class="col-4 col-sm-3 col-md-2">
+              <!-- light number-->
+
+              <div class="input-group">
+                <button
+                  (click)="decrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-plus"
+                >
+                  -
+                </button>
+
+                <input
+                  class="form-control text-center number"
+                  formControlName="number"
+                />
+
+                <button
+                  (click)="incrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-minus"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="col d-none d-md-block">
+              <!-- light conso-->
+              <div class="input-group">
+                <span class="result">
+                  {{ consoForm.value[item.id].conso }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconso">Conso unit/mois</label>
+            </div>
+
+            <div class="col d-none d-md-block"></div>
+            <div class="col d-none d-md-block"></div>
+
+            <div class="col">
+              <!-- light conso global -->
+              <div class="input-group">
+                <span class="result">
+                  {{
+                    consoForm.value[item.id].number *
+                      consoForm.value[item.id].conso
+                  }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconsoglobal">Consommation/mois</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SDB ITEMS -->
+      <h2 style="position:relative">
+        <input
+          [checked]="verifyAllItemsChecked('sdbItems')"
+          (change)="checkAllItems(allSdbItems, 'sdbItems')"
+          style="position:absolute; left:-35px"
+          #allSdbItems
+          class="form-check-input"
+          type="checkbox"
+        />Salle de bain
+      </h2>
+
+      <!-- -------------------------- -->
+      <!-- DRY TOWEL  -->
+      <!------------------------------->
+      <div formGroupName="drytowel" class="materiel">
+        <div class="line">
+          <input
+            id="drytowel"
+            (change)="drytowelCheckedChange($event)"
+            formControlName="checked"
+            type="checkbox"
+          />
+          <label id="main-label" for="drytowel">Sèche-serviette</label>
+          <span
+            style="font-size:80%;display: block;
+          margin-left: 20px;position: relative;
+    top: -7px;"
+            >(Calcul réalisé pour une utilisation de 4h/jour)</span
+          >
+        </div>
+
+        <div
+          style="margin-left:20px; margin-bottom:7px"
+          formArrayName="items"
+          *ngFor="
+            let item of drytowelItems.controls;
+            let i = index;
+            let c = count
+          "
+        >
+          <div
+            class="line animate__animated animate__faster"
+            [class]="animatestyle"
+            [formGroupName]="i"
+          >
+            <!-- <span>{{ i + 1 }} </span> -->
+
+            <div style="position:relative" class="row row-drytowel">
+              <div class="col-4 col-sm-3 col-md-2">
+                <!-- drytowel number-->
+
+                <div class="input-group d-flex">
+                  <button
+                    (click)="drytowelDecrement($event, i)"
+                    type="button"
+                    class="btn btn-secondary btn-plus input-group-text"
+                  >
+                    -
+                  </button>
+
+                  <input
+                    class="form-control text-center number"
+                    formControlName="drytowelnumber"
+                  />
+
+                  <button
+                    (click)="drytowelIncrement($event, i)"
+                    type="button"
+                    class="btn btn-secondary btn-minus input-group-text"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="col">
+                <!-- drytowel power-->
+
+                <div class="input-group">
+                  <select
+                    (change)="drytowelpowerChange($event, i)"
+                    id="drytowelpower"
+                    class="power form-control"
+                    formControlName="drytowelpower"
+                    placeholder="Puissance (Watt)"
+                  >
+                    <option value="750">750</option>
+                    <option value="1000">1000</option>
+                  </select>
+                  <span class="input-group-text">W</span>
+                </div>
+                <label for="drytowelpower">Puissance (Watt)</label>
+              </div>
+
+              <div class="col">
+                <!-- drytowel temp-->
+                <!-- <div class="input-group"> -->
+                <output>
+                  {{ temperature.value }}°
+                  <span style="font-size:61%"> (Température)</span>
+                </output>
+                <input
+                  style="position: relative;top: -9px;"
+                  type="range"
+                  #temperature
+                  (input)="drytoweltempChange($event, i, temperature.value)"
+                  class="conso form-range"
+                  class="form-range"
+                  min="19"
+                  max="35"
+                  value="23"
+                  formControlName="drytoweltemp"
+                  placeholder="Conso moyenne / mois"
+                />
+
+                <!-- <span class="input-group-text">°</span> -->
+                <!-- <label for="drytowelconso">Température</label> -->
+                <!-- </div> -->
+              </div>
+
+              <div class="col">
+                <!-- <output>
+                  {{ usePerDayInHours.value }}h
+                  <span style="font-size:61%"> (Utilisation/jour)</span>
+                </output>
+                <input
+                  style="position: relative;top: -9px;"
+                  type="range"
+                  #usePerDayInHours
+                  (input)="
+                    drytoweldurationPerDayChange(
+                      $event,
+                      i,
+                      usePerDayInHours.value
+                    )
+                  "
+                  class="conso form-range"
+                  class="form-range"
+                  min="1"
+                  max="24"
+                  value="4"
+                  formControlName="usePerDayInHours"
+                  placeholder="Utilisation/jour"
+                /> -->
+
+                <!--
+                <div class="input-group">
+                  <input
+                    (keyup)="drytowelconsoChange($event, i)"
+                    class="conso form-control"
+                    formControlName="drytowelconso"
+                    placeholder="Conso moyenne / mois"
+                    [attr.disabled]="true"
+                  />
+                  <span class="input-group-text unit">kWh</span>
+                </div>
+                <label for="drytowelconso">Conso/radiateur/mois</label>
+                 -->
+              </div>
+
+              <div class="col">
+                <!-- drytowel conso global per line-->
+                <div class="input-group">
+                  <input
+                    class="conso form-control"
+                    formControlName="drytowelconsoglobal"
+                    placeholder="Conso moyenne / mois"
+                    [attr.disabled]="true"
+                  />
+                  <span class="input-group-text unit">kWh</span>
+                </div>
+                <label for="drytowelconsoglobal">Consommation/mois</label>
+              </div>
+
+              <div
+                style="position: absolute;top: 3px;right: -45px;width: 62px;"
+              >
+                <button
+                  class="btn btn-outline-secondary btn-sm border-0"
+                  type="button"
+                  title="Supprimer la ligne"
+                  *ngIf="c > 1"
+                  (click)="deleteItemDrytowelLine($event, i)"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- button ajouter -->
+        <!-- <div *ngIf="consoForm.value.drytowel.checked" class="addbutton">
+          <button type="button" (click)="addItemDrytowel($event)">
+            Ajouter
+          </button>
+        </div> -->
+      </div>
+
+      <!-- -------------------------- -->
+      <!-- FIN DRY TOWEL  -->
+      <!------------------------------->
+      <div
+        *ngFor="let item of sdbItems"
+        [formGroupName]="item.id"
+        class="materiel"
+      >
+        <div *ngIf="item.id != 'drytowel'" class="line">
+          <input [id]="item.fr" formControlName="checked" type="checkbox" />
+          <label id="main-label" [for]="item.fr">{{
+            item.fr | titlecase
+          }}</label>
+        </div>
+
+        <div
+          class="line animate__animated animate__faster"
+          [class]="animatestyle"
+          *ngIf="consoForm.value[item.id].checked"
+          style="margin-left:20px"
+        >
+          <div class="row">
+            <div class="col-4 col-sm-3 col-md-2">
+              <div class="input-group">
+                <button
+                  (click)="decrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-plus"
+                >
+                  -
+                </button>
+
+                <input
+                  class="form-control text-center number"
+                  formControlName="number"
+                />
+
+                <button
+                  (click)="incrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-minus"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="col d-none d-md-block">
+              <!-- light conso-->
+              <div class="input-group">
+                <span class="result">
+                  {{ consoForm.value[item.id].conso }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconso">Conso unit/mois</label>
+            </div>
+
+            <div class="col d-none d-md-block"></div>
+            <div class="col d-none d-md-block"></div>
+
+            <div class="col">
+              <!-- light conso global -->
+              <div class="input-group">
+                <span class="result">
+                  {{
+                    consoForm.value[item.id].number *
+                      consoForm.value[item.id].conso
+                  }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconsoglobal">Consommation/mois</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCESSOIRES ITEMS -->
+      <h2 style="position:relative">
+        <input
+          [checked]="verifyAllItemsChecked('accessoiresItems')"
+          (change)="checkAllItems(allAccessoiresItems, 'accessoiresItems')"
+          style="position:absolute; left:-35px"
+          #allAccessoiresItems
+          class="form-check-input"
+          type="checkbox"
+        />Accessoires
+      </h2>
+      <div
+        *ngFor="let item of accessoiresItems"
+        [formGroupName]="item.id"
+        class="materiel"
+      >
+        <div class="line">
+          <input [id]="item.fr" formControlName="checked" type="checkbox" />
+          <label id="main-label" [for]="item.fr">{{
+            item.fr | titlecase
+          }}</label>
+        </div>
+
+        <div
+          class="line animate__animated animate__faster"
+          [class]="animatestyle"
+          *ngIf="consoForm.value[item.id].checked"
+          style="margin-left:20px"
+        >
+          <div class="row">
+            <div class="col-4 col-sm-3 col-md-2">
+              <div class="input-group">
+                <button
+                  (click)="decrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-plus"
+                >
+                  -
+                </button>
+
+                <input
+                  class="form-control text-center number"
+                  formControlName="number"
+                />
+
+                <button
+                  (click)="incrementNumber($event, item.id)"
+                  type="button"
+                  class="btn btn-secondary btn-minus"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div class="col d-none d-md-block">
+              <!-- light conso-->
+              <div class="input-group">
+                <span class="result">
+                  {{ consoForm.value[item.id].conso }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconso">Conso unit/mois</label>
+            </div>
+
+            <div class="col d-none d-md-block"></div>
+            <div class="col d-none d-md-block"></div>
+
+            <div class="col">
+              <!-- light conso global -->
+              <div class="input-group">
+                <span class="result">
+                  {{
+                    consoForm.value[item.id].number *
+                      consoForm.value[item.id].conso
+                  }}
+                </span>
+                <span class="input-group-text unit">kWh</span>
+              </div>
+              <label for="lightconsoglobal">Consommation/mois</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- <button type="submit">Envoyer</button> -->
+    </form>
+  </div>
+</section>
+
+<section class="py-3 mt-5 bg-dark">
+  <div class="container">
+    <p
+      style="color:#989795; text-align:cnter; font-size:13px;letter-spacing:0.6px"
+    >
+      Les prix de consommation utilisés pour chaque appareil sont des prix
+      moyens constatés. Votre consommation réelle dépend de plusieurs paramètres
+      comme la classe énergétique de vos appareils, votre niveau d'isolation, la
+      surface de vos pièces. Le calcul de votre consommation est donc fourni à
+      titre indicatif et ne saurait constituer un engagement commercial.
+    </p>
+    <p
+      style="color:#989795; text-align:cnter; font-size:14px;letter-spacing:0.6px;text-align:center"
+    >
+      © EasySmartLock 2022 -
+      <span style="opacity:0.7">Dev: Fred Lossignol</span>
+    </p>
+  </div>
+</section>
